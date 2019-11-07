@@ -1,0 +1,60 @@
+sudo apt-get update
+sudo apt install python-minimal
+sudo apt install python-pip
+sudo pip install virtualenv
+sudo apt install mc
+virtualenv  bsk
+source bsk/bin/activate
+ma być teraz "(bsk) user@komputer_name:~$" - to jest virtualne środowisko dla tego projektu i co tu doinstalujesz nie wzuca sie na glowny ubuntu
+vi lista_pakietow.txt
+###
+wklej co pomiedzy **
+***
+ansible==2.8.5
+asn1crypto==1.0.1
+certifi==2019.9.11
+cffi==1.12.3
+chardet==3.0.4
+cryptography==2.7
+enum34==1.1.6
+idna==2.8
+ipaddress==1.0.22
+Jinja2==2.10.3
+MarkupSafe==1.1.1
+ntlm-auth==1.4.0
+pycparser==2.19
+pykerberos==1.2.1
+pyOpenSSL==19.0.0
+pywinrm==0.3.0
+PyYAML==5.1.2
+requests==2.22.0
+requests-kerberos==0.12.0
+requests-ntlm==1.1.0
+six==1.12.0
+urllib3==1.25.6
+xmltodict==0.12.0
+***
+pip install -r lista_pakietow.txt
+#cd enter 
+cd
+#pryklady playbokow do przejzenia
+git clone https://github.com/sirkubax/szkolenie3.git
+#projekt szkoly bardzo fajny
+git clone https://github.com/crombeen/ansible.git
+
+##tu mozna se vi zmienic na bardziej przzyjazny ale moze to narazie zostaw
+sudo apt-get install curl vim exuberant-ctags git ack-grep sudo pip install pep8 flake8 pyflakes isort yapf
+sudo apt-get install curl vim exuberant-ctags git ack-grep
+pip install pep8 flake8 pyflakes isort yapf
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+##
+stronka z vimem
+https://github.com/junegunn/vim-plug
+tutaj masz tez pliczek .vim
+ale moze to narazie zostaw zebys sie nie zniechęciał
+##
+
+
+
+
+
