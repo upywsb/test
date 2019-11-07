@@ -52,8 +52,8 @@ stronka z vimem
 https://github.com/junegunn/vim-plug
 tutaj masz tez pliczek .vim
 ale moze to narazie zostaw zebys sie nie zniechęciał
-##
-
+## pdate all packages
+sudo pip install -U $(pip freeze | cut -d '=' -f 1)
 
 
 
