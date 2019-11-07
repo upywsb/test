@@ -13,8 +13,8 @@ Get-AppxPackage -all Microsoft.MicrosoftStickyNotes | Remove-AppxPackage -AllUse
 Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize
 #siecowe
 Get-NetRoute -DestinationPrefix "0.0.0.0/0"
-Stop-Computer -Force -ComputerName 000-RY-01.BSMYSZKOW.LOCAL
-Restart-Computer -Force -ComputerName 003-SO-02.BSMYSZKOW.LOCAL
+Stop-Computer -Force -ComputerName komputer.LOCAL
+Restart-Computer -Force -ComputerName komputer.LOCAL
 #sprawdzenie dostepu zdalnego powershell
 Get-ChildItem WSMan:\localhost\Service\Auth
 Set-Item -Path "WSMan:\localhost\Service\Auth\Basic" -Value $false
