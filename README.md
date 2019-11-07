@@ -10,3 +10,7 @@ win_updates:
   reboot: yes
   blacklist:
     -kb22222
+    
+    
+    powershell
+    get-WmiObject -class Win32_Share
