@@ -1,5 +1,5 @@
 ---
-- hosts: 003-SO-02.BSMYSZKOW.LOCAL
+- hosts: HOST.BSK.LOCAL
   tasks:
   - name: Install 7zip from a network share specifying the credentials
     win_package:
