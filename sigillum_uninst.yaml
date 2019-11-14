@@ -1,0 +1,8 @@
+ ---
+ - hosts: HOST.BSK.LOCAL
+   tasks:
+   - name: Install sigillum
+     win_package:
+       path: \\Dc01\msi\Sigillum\Sigillum_sign_5.2.6_lite.msi
+       state: absent
+                        
