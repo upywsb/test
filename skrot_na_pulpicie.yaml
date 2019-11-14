@@ -1,0 +1,7 @@
+---
+ - hosts: HOST.BSK.LOCAL
+   tasks:
+   - name: Create a URL website shortcut for all users
+     win_shortcut:
+        src: https://wp.pl/
+        dest: 'C:\Users\Public\Desktop\EuroCmenu.url'
