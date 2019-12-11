@@ -20,3 +20,4 @@ Get-ChildItem WSMan:\localhost\Service\Auth
 Set-Item -Path "WSMan:\localhost\Service\Auth\Basic" -Value $false
 winrm enumerate winrm/config/Listener
 Status-Service winrm
+https://github.com/PowerShell/WindowsCompatibility
