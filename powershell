@@ -22,3 +22,10 @@ winrm enumerate winrm/config/Listener
 Status-Service winrm
 https://github.com/PowerShell/WindowsCompatibility
 https://github.com/devops-collective-inc/secrets-of-powershell-remoting/tree/master/manuscript
+
+
+([adsi]"WinNT://$((Get-WMIObject Win32_ComputerSystem).Domain)").Children).Where({$_.schemaclassname -eq 'computer'})
+
++ Get-ADComputer -Filter * -properties *|select Name, DNSHostName, OperatingSystem, LastLogonDate
+Invoke-Command -ComputerName DC01.bsmyszkow.local {Get-ADComputer -Filter * -properties *|select DNSHostName }|Export-Csv d:\mz2.csv
+Invoke-Command -ComputerName 000-RY-01.bsmyszkow.local, DESKTOP-NI8H9D5.bsmyszkow.local, DESKTOP-A0FJ63L.bsmyszkow.local, DESKTOP-97TNF26.bsmyszkow.local {Stop-Computer -Force -ThrottleLimit 1 }
