@@ -31,3 +31,14 @@ Invoke-Command -ComputerName name {Get-ADComputer -Filter * -properties *|select
 Invoke-Command -ComputerName name {Stop-Computer -Force -ThrottleLimit 1 }
 Invoke-Command -ComputerName Marek -ScriptBlock {ipconfig /all} -Credential $cred
  winrm e winrm/config/listener
+##########################
+# Store the appropriate Linux credential as an object
+$cred = Get-Credential
+
+# Disable cert checking (this is a dev/test environment)
+$o = New-PSSessionOption -SkipCACheck  -SkipCNCheck
+
+# Start the session, specifying our custom remoting configuration
+Enter-PSSession -ComputerName 'marek' -Credential $cred -Authentication basic -UseSSL -SessionOption $o
+
+##################
