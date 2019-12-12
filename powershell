@@ -29,3 +29,5 @@ https://github.com/devops-collective-inc/secrets-of-powershell-remoting/tree/mas
 + Get-ADComputer -Filter * -properties *|select Name, DNSHostName, OperatingSystem, LastLogonDate
 Invoke-Command -ComputerName name {Get-ADComputer -Filter * -properties *|select DNSHostName }|Export-Csv d:\mz2.csv
 Invoke-Command -ComputerName name {Stop-Computer -Force -ThrottleLimit 1 }
+Invoke-Command -ComputerName Marek -ScriptBlock {ipconfig /all} -Credential $cred
+ winrm e winrm/config/listener
