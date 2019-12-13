@@ -1,3 +1,9 @@
+$o = New-PSSessionOption -SkipCACheck  -SkipCNCheck 
+Enter-PSSession -ComputerName 'Marek' -Credential $cred -Authentication basic -UseSSL -SessionOption $o
+
+
+
+
 #lista share folder
 get-WmiObject -class Win32_Share
 #okno z poswiadczeniami
