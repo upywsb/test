@@ -1,0 +1,152 @@
+#Sets Computer Parameter
+[CmdLetBinding()]
+     Param ([Parameter(Mandatory=$true)]
+           [System.String]$Computer,
+           [System.String[]]$County)
+
+#region begin Sets Correct Driver and Variables
+$driver = "HP LaserJet Professional P 1102W"
+New-PSDrive -Name "X" -PSProvider FileSystem -Root "\\server\Printers\P1102w\Driver" -Credential $cred
+
+
+#Checks for Temp Folder and Creates if Missing
+Invoke-Command -ComputerName $computer -ScriptBlock {
+    $testPath = Test-Path -Path "C:\Temp\"
+        If (!$testPath) { 
+           New-Item -Path "C:\Temp\" -ItemType "directory"
+        } 
+} -Credential $cred
+            
+New-PSDrive -Name "Y" -PSProvider FileSystem -Root "\\$computer\c$\Temp" -Credential $cred
+
+#endregion
+
+
+#region begin Checks for Correct Print Driver
+$installedDriver = Get-PrinterDriver -ComputerName $computer | Where-Object {$_.Name -eq $driver}
+    If (!$installedDriver) { 
+       Write-Host "Copying Drivers to Temp Directory" -ForegroundColor Green                   
+       Get-Item -Path X: | Copy-Item -Path {$_.FullName} -Destination Y: -Recurse -Force                
+       Start-Process -Filepath "C:\Scripts\Pstools\psexec.exe" -Argumentlist "\\$computer pnputil.exe -i -a C:\Temp\Driver\HP1100.INF" -Credential $cred -Verbose | Out-Null
+       Write-Host "Waiting for $driver to be added to the Driver Store" -ForegroundColor Yellow
+       Start-Sleep -Seconds 30
+            Invoke-Command -ComputerName $computer -ScriptBlock {
+                #Adds Print Driver
+                Try {
+                Add-PrinterDriver -Name $using:driver -Verbose -ErrorAction Stop
+                } 
+                Catch {
+                Write-Host "Driver not Installed!!" -ForegroundColor Red
+                Break                
+                }
+            } -Credential $cred 
+  }
+#endregion
+
+#region begin Lookup Table
+$lookup = @{
+    'Columbia' = @(
+        @{
+            'Name' = 'Columbia CR_2'
+            'PortName' = 'IP_192.168.1.25'
+        }
+        @{
+            'Name' = 'Columbia CR_3'
+            'PortName' = 'IP_192.168.1.23'
+        }
+        @{
+            'Name' = 'Columbia CR_4'
+            'PortName' = 'IP_192.168.1.24'
+        }
+    )
+    'Dixie'= @(
+        @{
+            'Name' = 'Dixie CR_A'
+            'PortName' = 'IP_192.168.1.41'
+        }
+    )
+    'Hamilton'= @(
+        @{
+            'Name' = 'Hamilton CR_1'
+            'PortName' = 'IP_192.168.1.61'
+        }
+    )
+    'Lafeyette'= @(
+        @{
+            'Name' = 'Lafeyette CR_1'
+            'PortName' = 'IP_192.168.1.62'
+        }
+    )
+    'Suwannee'= @(
+        @{
+            'Name' = 'Suwannee CR_A'
+            'PortName' = 'IP_192.168.1.11'
+        }
+        @{  'Name' = 'Suwannee CR_B'
+            'PortName' = 'IP_192.168.1.12'
+        }
+    )
+    'Taylor'= @(
+        @{
+            'Name' = 'Taylor CR_A'
+            'PortName' = 'IP_192.168.1.31'
+        }
+        @{  'Name' = 'Taylor CR_B'
+            'PortName' = 'IP_192.168.1.32'
+        }
+    )
+}
+#endregion
+
+
+#region begin Compare Local Printers
+Invoke-Command -ComputerName $computer -ScriptBlock {Restart-Service -Name Spooler -Force -Verbose} -Credential $cred
+
+ForEach ($location in $county) {
+$newPrinters = $lookup[$location]
+$localPrinters = Get-Printer -ComputerName $computer | Select -Property Name,PortName
+    ForEach ($localPrinter in $localPrinters) {
+            ForEach ($newPrinter in $newPrinters) {
+                If (                
+                     (  
+                        ($newPrinter.Name -eq $localPrinter.Name -and $newPrinter.PortName -ne $localPrinter.PortName)
+                     ) -or 
+                        ($newPrinter.PortName -eq $localPrinter.PortName -and $newPrinter.Name -ne $localPrinter.Name)
+                   )
+                    { 
+                        Invoke-Command -ComputerName $computer -ScriptBlock {
+                            Remove-Printer -Name $localPrinter.Name -Verbose -ErrorAction SilentlyContinue
+                            Write-host "Removed $($localPrinter.Name)" -ForegroundColor Yellow
+                            Remove-PrinterPort -Name $localPrinter.PortName -Verbose -ErrorAction SilentlyContinue
+                            Write-host "Removed $($localPrinter.PortName)" -ForegroundColor Yellow
+                        } -Credential $cred
+                    }               
+            }         
+    }
+#endregion   
+
+#region begin Install Courtroom Printers based on County
+$localPrinters = Get-Printer -ComputerName $computer | Select -ExpandProperty Name
+    ForEach ($newPrinter in $newPrinters) {
+        If ($localPrinters -notcontains $newPrinter.Name) {
+            Invoke-Command -ComputerName $computer -ScriptBlock {
+                Write-Host "Installing $($using:newPrinter.PortName)" -ForegroundColor Green
+                Add-PrinterPort -Name $using:newPrinter.PortName -Verbose -ErrorAction SilentlyContinue
+                Write-Host "Installing $($using:newPrinter.Name)" -ForegroundColor Green
+                Add-Printer -Name $using:newPrinter.Name -DriverName $using:driver -PortName $using:newPrinter.PortName -Verbose -ErrorAction Continue
+            } -Credential $cred
+        }
+    }
+#endregion
+} 
+#region begin Removing Temp Files and PSDrives
+Invoke-Command -ComputerName $computer -ScriptBlock {
+    $testPath = Test-Path -Path "C:\Temp\Driver"
+        If ($testPath) { 
+            Write-Host "Deleting Drivers from Temp Directory" -ForegroundColor Green
+            Remove-Item -Path "C:\Temp\Driver" -Recurse -Force     
+        }
+        
+} -Credential $cred
+Remove-PSDrive X,Y
+#endregion   
