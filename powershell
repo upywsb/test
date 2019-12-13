@@ -43,4 +43,41 @@ Invoke-Expression "& {$(Invoke-RestMethod -Uri https://aka.ms/install-powershell
 # Start the session, specifying our custom remoting configuration
 Enter-PSSession -ComputerName 'marek' -Credential $cred -Authentication basic -UseSSL -SessionOption $o
 
-##################
+############################################
+####  Dodawanie Drukarki lokalnie ##########
+############################################
+It turns out that the driver from the INF file can only be installed if it already exists in the DriverStore. It appears that you can’t install a print driver that is not in the Driver Store using Add-PrinterDriver command. To add a driver to the DriverStore, you can use:
+
+the VBS script described in the previous article;
+the utility — pnputil.exe. The command can looks as follow: pnputil.exe -i -a C:\Distr\HP-pcl6-x64\hpcu118u.inf (installs the specific printer driver) or pnputil.exe -i -a C:\Distr\HP-pcl6-x64\*.inf (installs all the drivers found in the INF files in the specified directory);
+You can download and unpack the necessary driver files manually or export all third-party drivers from a reference Windows 10 computer, on which all the necessary drivers are already installed (using the Export-WindowsDriver cmdlet).
+If your Windows 10 ISO image contains only the file ..\sources\install.esd, you can convert the ESD file to WIM format using the DISM tool: dism /export-image /SourceImageFile:"C:\WinWork\ISO\install.esd" /SourceIndex:4 /DestinationImageFile:C:\WinWork\ISO\install.wim /Compress:max /CheckIntegrity
+List all Windows editions contained in the Install.wim file using the Get-WindowsImage PowerShell cmdlet. This is necessary in order to specify the Widows edition into which it is planned to integrate the additional drivers.
+
+Get-WindowsImage -ImagePath C:\WinWork\ISO\install.wim
+In our example, the WIM file contains only one Windows 10 Pro edition with the index 1 (ImageIndex: 1).
+Next you need to mount the image of the selected Windows edition in the directory Mount. The Windows image index, which you need to mount, must be specified as an argument of the Index parameter:
+
+Mount-WindowsImage -Path C:\WinWork\Mount\ -ImagePath C:\WinWork\ISO\install.wim -Index 1
+
+fter the image is mounted, you can add drivers to it from the Drivers directory using the command:
+
+Add-WindowsDriver -Path C:\WinWork\Mount\ -Driver C:\WinWork\Drivers -Recurse
+
+The Add-WindowsDriver cmdlet will recursively search (the -Recurse parameter) the specified folder for all *.inf files with driver description. According to the description in the inf file, the cmdlet will add the dependent INF, DLL, CAT, PNF, etc. files to the Driver Store of your Windows image.
+Using the –ForceUnsigned key, you can add to the driver store even an unsigned drivers. Otherwise, you will have to disable the digital signature enforcement or sign the device driver yourself with a self-signed certificate.
+So, the drivers are copied, and the current image can be unmounted with saving changes:
+
+Dismount-WindowsImage -Path C:\WinWork\Mount\ –Save
+###genetelnie szukaj tu 
+http://woshub.com/integrate-drivers-to-windows-install-media/
+###
+Get-WindowsDriver -All -Online | Where-Object {$_.OriginalFileName -like '*kobk4aa_.inf'} | Select-Object -ExpandProperty OriginalFileName -OutVariable infPath
+C:\Windows\System32\DriverStore\FileRepository\kobk4aa_.inf_amd64_4e2ed49703e52a01\kobk4aa_.inf
+
+Get-Command –Module PrintManagement
+Get-Help <cmdlet_name> -Detailed
+Get-Help < cmdlet_name> -Examples
+Get-Help Add-PrinterDriver -Examples
+Add-PrinterPort -Name bogus: -PrinterHostAddress 192.168.0.31
+Get-PrinterPort | Where name -eq ‘bogus:’ | Remove-PrinterPort
