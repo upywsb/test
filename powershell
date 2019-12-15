@@ -1,6 +1,14 @@
 $o = New-PSSessionOption -SkipCACheck  -SkipCNCheck 
 Enter-PSSession -ComputerName 'Marek' -Credential $cred -Authentication basic -UseSSL -SessionOption $o
 
+$Servers = Get-Content c:\server_list.txt
+foreach($Server in $Servers)
+ {
+ Write-Host "Procesing Server $Serer"
+ Get-WinObject -Class Win32_Product -ComputerName $Server | select __SERVER, Name, Version -ErrorAction SilentluContinue
+ }
+ 
+
 
 
 
