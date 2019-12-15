@@ -10,6 +10,11 @@ foreach($Server in $Servers)
  
 
 
+##get all installed app
+Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table –AutoSize
+znajdowanie ruznic
+Compare-Object -ReferenceObject (Get-Content C:\Users\Lori\Documents\PCapps.txt) -DifferenceObject (Get-Content C:\Users\Lori\Documents\LAPTOPapps.txt)
+##
 
 
 #lista share folder
