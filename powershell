@@ -2,6 +2,12 @@ $o = New-PSSessionOption -SkipCACheck  -SkipCNCheck
 Enter-PSSession -ComputerName 'Marek' -Credential $cred -Authentication basic -UseSSL -SessionOption $o
 net use w: \\marek\wsb /user:marek\marek secredpasssword  /P:Yes
 New-PSDrive -Name "Y" -PSProvider FileSystem -Root "\\marek\wsb\st\" -Credential $cred
+New-PSDrive -Name "X" -PSProvider FileSystem -Root "\\xp-komputer\c$\dr" -Credential $cred 
+
+
+Get-Item -Path X: | Copy-Item -Path {$_.FullName} -Destination o: -Recurse -Force
+pnputil.exe -a c:\dr\*.inf  
+
 
 $Servers = Get-Content c:\server_list.txt
 foreach($Server in $Servers)
