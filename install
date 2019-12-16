@@ -1,3 +1,6 @@
+https://docs.ansible.com/ansible/latest/user_guide/windows_setup.html
+
+
 sudo apt-get update
 sudo apt install python-minimal
 sudo apt install python-pip
