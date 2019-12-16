@@ -1,6 +1,6 @@
 $o = New-PSSessionOption -SkipCACheck  -SkipCNCheck 
 Enter-PSSession -ComputerName 'Marek' -Credential $cred -Authentication basic -UseSSL -SessionOption $o
-
+net use w: \\marek\wsb /user:marek\marek secredpasssword  /P:Yes
 $Servers = Get-Content c:\server_list.txt
 foreach($Server in $Servers)
  {
