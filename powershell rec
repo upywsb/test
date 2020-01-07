@@ -1,1 +1,4 @@
 ForEach ($user in (Get-ChildItem "C:\Users" -Exclude Public)) { Copy-Item -Path "MyFile.txt" -Destination "C:\Users\$user\AppData\Local\MyApp\MyFile.txt"
+
+
+https://www.tenforums.com/tutorials/3157-backup-restore-pinned-apps-taskbar-windows-10-a.html
