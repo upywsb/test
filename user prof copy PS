@@ -1,0 +1,35 @@
+$FoldersToCopy = @(
+    'Desktop'
+    'Downloads'
+    'Favorites'
+    'Documents'
+    'Pictures'
+    'Videos'
+    'AppData\Local\Google'
+    )
+
+$FlashDrive = Get-CimInstance -ClassName Win32_LogicalDisk -Filter 'DriveType = 2' |
+    Out-GridView -OutputMode Single -Title 'Select destination drive...'
+
+if( -not $FlashDrive ){
+    Write-Warning 'No drive selected.'
+    exit
+    }
+
+$DestinationRoot = Join-Path -Path $FlashDrive.DeviceID -ChildPath "$env:COMPUTERNAME\$env:USERNAME"
+
+foreach( $Folder in $FoldersToCopy ){
+    $Source      = Join-Path -Path $env:USERPROFILE -ChildPath $Folder
+    $Destination = Join-Path -Path $DestinationRoot -ChildPath $Folder
+
+    if( -not ( Test-Path -Path $Source -PathType Container ) ){
+        Write-Warning "Could not find path`t$Source"
+        continue
+        }
+
+    if( -not ( Test-Path -Path $Destination -PathType Container ) ){
+        $null = New-Item -ItemType Directory -Path $Destination
+        }
+
+    Robocopy.exe $Source $Destination /E /IS /NP /NFL
+    }
