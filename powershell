@@ -35,7 +35,9 @@ Get-ChildItem -Attributes {Directory} #w10 1903 nie dziala
 #werja powershell
 $PSVersionTable
 #usuniecie pakietu dla wszystkich userow
-Get-AppxPackage -all Microsoft.MicrosoftStickyNotes | Remove-AppxPackage -AllUsers
+Get-AppxPackage -all Microsoft.MicrosoftStickyNotes | Remove-AppxPackage -AllUsers #nie dziala
+##niby dzial
+Get-AppxPackage  Microsoft.WindowsM* -AllUsers |  Remove-AppxPackage   
 #lista wszystkich zainstalowanych programow
 Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | Format-Table -AutoSize
 #siecowe
