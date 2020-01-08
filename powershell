@@ -110,3 +110,10 @@ Get-Help < cmdlet_name> -Examples
 Get-Help Add-PrinterDriver -Examples
 Add-PrinterPort -Name bogus: -PrinterHostAddress 192.168.0.31
 Get-PrinterPort | Where name -eq ‘bogus:’ | Remove-PrinterPort
+
+
+
+dism /online /Import-DefaultAppAssociations:"%UserProfile%\Desktop\FileAssociations.xml"
+Dism.exe /Online /Remove-DefaultAppAssociations
+dism /online /Export-DefaultAppAssociations:"%UserProfile%\Desktop\FileAssociations.xml"
+
