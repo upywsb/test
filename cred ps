@@ -1,0 +1,49 @@
+$psCred = Get-StoredCredential -Target "CGSPS1"
+Connect-MSolService -Credential $psCred
+
+i stored my credentials in credentials manager as CGSPS1 and i tried retrieving them in ps1
+$psCred = Get-StoredCredential -Target "CGSPS1" –AsCredentialObject
+
+$CRED = Get-StoredCredential -Target "CGSPS1" –AsCredentialObject
+Connect-MSolService -Credential $CRED
+and i get the below error
+
+Connect-MsolService : Cannot bind parameter 'Credential'. Cannot convert the "PSCredentialManager.Common.Credential" value of t
+"PSCredentialManager.Common.Credential" to type "System.Management.Automation.PSCredential".
+At line:1 char:33
++ Connect-MSolService -Credential $cred
+
+$username = "admin@domain.com"
+$password = ConvertTo-SecureString "mypassword" -AsPlainText -Force
+$psCred = New-Object System.Management.Automation.PSCredential -ArgumentList ($username, $password)
+Import-Module MSOnline
+Connect-MSolService -Credential $psCred
+$Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://ps.outlook.com/powershell-liveid/ -Credential $psCred -Authentication Basic -AllowRedirection 
+Import-PSSession $Session -AllowClobber -DisableNameChecking
+
+Then, in PowerShell, Wherever you use 
+
+$cred = Get-Credential
+
+which prompts you, replace that with
+
+$cred =$(Get-StoredCredential -Target thenameyoustoredyourcredentialunder)
+
+Is there a way to get around using "$cred = Get-Credential" without a prompt 
+
+ 
+
+The script i am trying to use is 
+
+# Connect to Office 365 
+# 
+
+$username = ""
+$password = ConvertTo-SecureString "mypassword" -AsPlainText -Force
+#$secureStringPwd = $password | ConvertTo-SecureString -AsPlainText -Force
+$creds = New-Object System.Management.Automation.PSCredential -ArgumentList ($user, $password)
+Import-Module MSOnline 
+$cred = Get-Credential 
+Connect-MSolService -credential $cred 
+$Session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri https://ps.outlook.com/powershell-liveid/ -Credential $cred -Authentication Basic -AllowRedirection 
+Import-PSSession $Session -AllowClobber -DisableNameChecking 
