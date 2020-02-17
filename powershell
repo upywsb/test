@@ -1,3 +1,6 @@
+#sprawdzanie nazwy hosta by ip
+[system.net.dns]::gethostentry('192.168.1.50')
+
 $o = New-PSSessionOption -SkipCACheck  -SkipCNCheck 
 Enter-PSSession -ComputerName 'Marek' -Credential $cred -Authentication basic -UseSSL -SessionOption $o
 net use w: \\marek\wsb /user:marek\marek secredpasssword  /P:Yes
