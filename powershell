@@ -1,4 +1,10 @@
+
+
+Get-Content C:\IP_Address.txt | ForEach-Object {([system.net.dns]::GetHostByAddress($_)).hostname >> c:\hostname.txt}
+Get-Content C:\IP_Address.txt | ForEach-Object {([system.net.dns]::GetHostByAddress($_)).hostname >> c:\hostname.txt}
+
 #sprawdzanie nazwy hosta by ip
+Resolve-DnsName 192.168.0.186
 [system.net.dns]::gethostentry('192.168.1.50')
 
 $o = New-PSSessionOption -SkipCACheck  -SkipCNCheck 
