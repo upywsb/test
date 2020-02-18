@@ -8,3 +8,15 @@ Get-ADUser -Filter * -Properties * | Select-Object LockedOut, name
 
 %%% FILTER USER %%%
 Get-ADUser -Filter 'Name -like "m*"'
+
+Get-ADUser -Filter * -Properties *
+Get-ADUser m.zasun -Properties *
+Get-ADUser -Filter {(Name -Like "Ben*") -And (Surname -eq "Thomas")}
+Get-AdUser -Filter 'name -Like "Test*" '
+Get-ADUser -Filter "Name -like 'İsmail Baydan'" -Properties "BadLogonCount","Title"
+Get-ADUser -Filter "*" | Export-CSV -Path ADUsers.csv
+Get-ADGroupMember -Identity Administratorzy | select name
+Get-ADGroupMember -Identity 'Internet Zarzad' | select name
+Get-ADGroup -Filter * | select Name
+Get-ADGroupMember -Identity 'VNC' | select name
+Get-ADGroupMember -Identity 'shareMA01' | select name
