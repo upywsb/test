@@ -4,3 +4,7 @@ Get-ADUser -Identity ChewDavid -Properties *
 
 %%% loced check %%%
 Get-ADUser -Filter * -Properties * | Select-Object LockedOut, name
+
+
+%%% FILTER USER %%%
+Get-ADUser -Filter 'Name -like "m*"'
