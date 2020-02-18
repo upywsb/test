@@ -1,6 +1,11 @@
 #### SET Static IP %%%%%
 New-NetIPAddress –InterfaceAlias “Wired Ethernet Connection” –IPv4Address “192.168.0.1” –PrefixLength 24 -DefaultGateway 192.168.0.254
+New-NetIPAddress –IPAddress 192.168.1.13 -DefaultGateway 192.168.1.1 -PrefixLength 24 -InterfaceIndex (Get-NetAdapter).InterfaceIndexs
 Set-DnsClientServerAddress -InterfaceAlias “Wired Ethernet Connection” -ServerAddresses 192.168.0.1, 192.168.0.2
+Set-DNSClientServerAddress –InterfaceIndex (Get-NetAdapter).InterfaceIndex –ServerAddresses <ip1>,<ip2>, etc.
+% DYnamic $$
+Set-NetIPInterface -InterfaceAlias 'Ethernet 2' -Dhcp Enabled
+Get-NetIPAddress -InterfaceAlias 'Ethernet 2' | Remove-NetRoute
 ####
 Get-Content C:\IP_Address.txt | ForEach-Object {([system.net.dns]::GetHostByAddress($_)).hostname >> c:\hostname.txt}
 Get-Content C:\IP_Address.txt | ForEach-Object {([system.net.dns]::GetHostByAddress($_)).hostname >> c:\hostname.txt}
