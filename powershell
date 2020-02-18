@@ -1,4 +1,7 @@
-
+Set-ItemProperty "REGISTRY::HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" UseWUserver -value 0
+Get-Service wuauserv | Restart-Service
+Get-WindowsCapability -Online -Name RSAT*  | Add-WindowsCapability -Online
+Set-ItemProperty "REGISTRY::HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" UseWUserver -value 1
 
 
 $session = New-PSSession -ComputerName DC -Credential (Get-Credential)
