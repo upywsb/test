@@ -1,2 +1,6 @@
 get-aduser -filter * -properties passwordlastset, passwordneverexpires |ft Name, passwordlastset, Passwordneverexpires
 Get-ADUser -Filter 'Name -like "*SvcAccount"' | Format-Table Name,SamAccountName -A
+Get-ADUser -Identity ChewDavid -Properties *
+
+%%% loced check %%%
+Get-ADUser -Filter * -Properties * | Select-Object LockedOut, name
