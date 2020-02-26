@@ -1,3 +1,11 @@
+kopiowanie
+Invoke-Command -ComputerName server1 -ScriptBlock{net use q: \\server2\c$ /user:<domain>\<username> <passwd>}
+Invoke-Command -ComputerName server1 -ScriptBlock{xcopy C:\test.txt q:\}
+Invoke-Command -ComputerName server1 -ScriptBlock{net use q: /d}
+
+
+
+
 Set-ItemProperty "REGISTRY::HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" UseWUserver -value 0
 Get-Service wuauserv | Restart-Service
 Get-WindowsCapability -Online -Name RSAT*  | Add-WindowsCapability -Online
