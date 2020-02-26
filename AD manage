@@ -1,0 +1,6 @@
+### szukaj zablokowanych uzytkowników  ###
+Search-ADAccount -lockedout |select SamAccountName, LastLogonDate, LockedOut, Enabled
+## lista wszystkich z opicem czy zablokowany czy nie ###
+Get-ADUser -Filter * -Properties * | Select-Object LockedOut, name
+###unlock user
+Unlock-ADAccount -Identity username
