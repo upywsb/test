@@ -4,3 +4,18 @@ Search-ADAccount -lockedout |select SamAccountName, LastLogonDate, LockedOut, En
 Get-ADUser -Filter * -Properties * | Select-Object LockedOut, name
 ###unlock user
 Unlock-ADAccount -Identity username
+
+Get-ADUser -Filter * -Properties * | select *
+
+Get-ADGroup -Filter * |select Name
+
+Add-ADGroupMember -Identity 'Skaner Drive' -Members username
+
+Get-ADGroupMember -Identity 'Skaner Drive'
+
+Get-ADUser -Filter 'SamAccountName -like "*.*"' |select SamAccountName
+
+##smb share 
+$cred = Get-Credential -Credential Contoso\ServiceAccount
+New-PSDrive -Name "S" -Root "\\Server01\Scripts" -Persist -PSProvider "FileSystem" -Credential $cred
+Net Use
