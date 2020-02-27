@@ -19,6 +19,8 @@ Get-ADGroup -Filter * |select Name
 
 Add-ADGroupMember -Identity 'Skaner Drive' -Members username
 
+Add-ADGroupMember -Identity 'KIR' -Members "computermane$"
+
 Get-ADGroupMember -Identity 'Skaner Drive'
 
 Get-ADUser -Filter 'SamAccountName -like "*.*"' |select SamAccountName
