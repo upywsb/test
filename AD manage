@@ -1,3 +1,11 @@
+--- AD instalacja -----
+gpupdate /force
+gpresult /scope user /v
+gpresult /scope Computer /v
+
+
+
+
 ### szukaj zablokowanych uzytkowników  ###
 Search-ADAccount -lockedout |select SamAccountName, LastLogonDate, LockedOut, Enabled
 ## lista wszystkich z opicem czy zablokowany czy nie ###
