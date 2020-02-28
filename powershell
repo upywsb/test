@@ -1,3 +1,9 @@
+--network
+Get-NetTCPConnection
+
+
+
+
 kopiowanie
 Invoke-Command -ComputerName server1 -ScriptBlock{net use q: \\server2\c$ /user:<domain>\<username> <passwd>}
 Invoke-Command -ComputerName server1 -ScriptBlock{xcopy C:\test.txt q:\}
