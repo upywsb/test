@@ -42,4 +42,12 @@ foreach ($d in $dir){
 
     & "C:\Program Files\7-Zip\7z.exe" a -t7z $name $path
 }
+
+
+
+foreach ($d in $dir){
+     $test1 = Join-Path   "ndomainname" -ChildPath $d.Name 
+     New-Item -ItemType directory -Path $test1
+ } 
+
 ------------------
