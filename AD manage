@@ -30,3 +30,16 @@ Get-ADUser -Filter 'SamAccountName -like "*.*"' |select SamAccountName
 $cred = Get-Credential -Credential Contoso\ServiceAccount
 New-PSDrive -Name "S" -Root "\\Server01\Scripts" -Persist -PSProvider "FileSystem" -Credential $cred
 Net Use
+
+
+------------pobiera nazwy folderow w sciezce i zapisuje je do zmiennej -------------
+
+$dir = dir d:\directory | ?{$_.PSISContainer}
+
+foreach ($d in $dir){
+    $name = Join-Path -Path $d.FullName -ChildPath ($d.Name + ".7z")
+    $path = Join-Path -Path $d.FullName -ChildPath "*"
+
+    & "C:\Program Files\7-Zip\7z.exe" a -t7z $name $path
+}
+------------------
