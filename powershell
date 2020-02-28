@@ -1,3 +1,7 @@
+-- ms doc--
+https://docs.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection?view=win10-ps
+
+
 --network
 Get-NetTCPConnection
 
