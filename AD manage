@@ -4,7 +4,8 @@ gpresult /scope user /v
 gpresult /scope Computer /v
 
 
-
+--- get all ad compuer ----
+Get-ADComputer -Filter * -properties *|select Name, DNSHostName, OperatingSystem, LastLogonDate, Description
 
 ### szukaj zablokowanych uzytkowników  ###
 Search-ADAccount -lockedout |select SamAccountName, LastLogonDate, LockedOut, Enabled
