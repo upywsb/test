@@ -4,7 +4,7 @@ https://docs.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection
 
 --network
 Get-NetTCPConnection
-
+https://mikefrobbins.com/2018/07/19/use-powershell-to-determine-what-your-system-is-talking-to/
 
 
 
