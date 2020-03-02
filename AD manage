@@ -1,3 +1,15 @@
+
+--- get AD computer with w10 and update not line 1803
+
+ (Get-ADComputer -properties * -filter "OperatingSystem  -like 'Windows 10*' -and OperatingSystemVersion -notlike '*18363*'").name
+ 
+(Get-ADComputer -properties * -filter "OperatingSystem  -like 'Windows 10*' -and OperatingSystemVersion -notlike '*18363*'") |select name, description
+Get-ADComputer -properties * -filter "OperatingSystem  -like 'Windows 10*'"|select name, OperatingSystemVersion
+
+
+
+
+
 Get-ADOrganizationalUnit -Filter * | Select-Object -Property DistinguishedName | Out-GridView -PassThru | Select-Object -ExpandProperty DistinguishedName 
 --- move computer to new ou
 $Find = Read-Host "input computername"
