@@ -1,0 +1,9 @@
+
+-----przenoszenie komturerów do innej oraganization unit --------
+$comps= Get-ADComputer -Filter *  -SearchBase "Cn=computers,DC=domain,dc=com"| Select-Object -Property Name |sort -Property name | Out-GridView -PassThru | Select -ExpandProperty Name
+$ous= Get-ADOrganizationalUnit -Filter * | Select-Object -Property DistinguishedName | Out-GridView -PassThru | Select-Object -ExpandProperty DistinguishedName
+Foreach($ou in $ous){
+Foreach($comp in $comps){
+get-adcomputer $comp |Move-ADObject -TargetPath  "$ou" -Verbose }
+
+}
