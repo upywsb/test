@@ -11,10 +11,12 @@ try
     }
     Catch{Add-content -value "$($Error[0])" -Path $Log}
     
-    
+---get all computer z w10 ver 1909 ---
+(Get-ADComputer -properties * -filter "OperatingSystem  -like 'Windows 10*' -and OperatingSystemVersion -notlike '*14393*'").name
+
     
 -- AD move to new OU--
-Move-ADObject (Get-ADComputer DESKTOP-computername).DistinguishedName -TargetPath "OU=PC,OU=Komputery,DC=bsmyszkow,DC=local"
+Move-ADObject (Get-ADComputer DESKTOP-computername).DistinguishedName -TargetPath "OU=PC,OU=Komputery,DC=NazwaDomeny,DC=local"
 ---AD set descryption --
 Set-ADComputer -Identity DESKTOP-computername$ -Description "imie i nazwisko" -verbose
     
