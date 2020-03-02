@@ -1,5 +1,21 @@
 Get-ADOrganizationalUnit -Filter * | Select-Object -Property DistinguishedName | Out-GridView -PassThru | Select-Object -ExpandProperty DistinguishedName 
+--- move computer to new ou
+$Find = Read-Host "input computername"
+$Log = "C:\log\log.csv"
+$Cred = Get-Credential "Domain\administrator"
+$comp = (Get-ADComputer $find).distinguishedname
 
+try
+    {
+    Move-ADObject $comp -TargetPath "ou=MGH_USERS,dc=Acme,dc=org" -Credential $cred
+    }
+    Catch{Add-content -value "$($Error[0])" -Path $Log}
+    
+    
+    
+-- AD move to new OU--
+Move-ADObject (Get-ADComputer DESKTOP-9AQ1I6N).DistinguishedName -TargetPath "OU=PC,OU=Komputery,DC=bsmyszkow,DC=local"
+    
 --- AD instalacja -----
 gpupdate /force
 gpresult /scope user /v
