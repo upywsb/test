@@ -1,3 +1,4 @@
+https://portal.msrc.microsoft.com/en-us/security-guidance
 ### sprawdzenie aktualizacji wszystkich/wybranych
 Get-Hotfix | Where-Object HotfixID -like KB*
 
