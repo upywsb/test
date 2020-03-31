@@ -1,4 +1,5 @@
 https://portal.msrc.microsoft.com/en-us/security-guidance
+https://www.catalog.update.microsoft.com/Search.aspx?q=KB4551762&fbclid=IwAR0-54OJdfu58RtTpGmUVC9qqapnH9WAXFmwoYzx3g5eTLSghQHaNshWfas
 ### sprawdzenie aktualizacji wszystkich/wybranych
 Get-Hotfix | Where-Object HotfixID -like KB*
 
