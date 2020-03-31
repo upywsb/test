@@ -1,3 +1,5 @@
+### sprawdzenie aktualizacji wszystkich/wybranych
+Get-Hotfix | Where-Object HotfixID -like KB*
 
 --- get AD computer with w10 and update not line 1803
 
